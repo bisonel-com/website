@@ -2,10 +2,6 @@
   const header = document.querySelector("[data-header]");
   const nav = document.querySelector("[data-nav]");
   const toggle = document.querySelector("[data-nav-toggle]");
-  const navLinks = nav ? Array.from(nav.querySelectorAll("a[href^='#']")) : [];
-  const sections = ["services", "clients", "incubation", "about", "contact"]
-    .map((id) => document.getElementById(id))
-    .filter(Boolean);
 
   const setScrolled = () => {
     if (!header) return;
@@ -24,35 +20,14 @@
       toggle.setAttribute("aria-expanded", String(!open));
       nav.classList.toggle("is-open", !open);
     });
+
+    nav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => closeNav());
+    });
   }
 
-  navLinks.forEach((link) => {
-    link.addEventListener("click", () => closeNav());
-  });
-
-  const updateCurrent = () => {
-    const marker = window.scrollY + 120;
-    let current = null;
-
-    sections.forEach((section) => {
-      if (section.offsetTop <= marker) {
-        current = section.id;
-      }
-    });
-
-    navLinks.forEach((link) => {
-      const href = link.getAttribute("href") || "";
-      const id = href.slice(1);
-      if (id && id === current) {
-        link.setAttribute("aria-current", "true");
-      } else {
-        link.removeAttribute("aria-current");
-      }
-    });
-  };
-
   const revealTargets = document.querySelectorAll(
-    ".section-intro, .service-block, .client-link, .incubate-link, .about-copy, .contact-panel"
+    ".section-intro, .service-block, .client-link, .incubate-link, .about-copy, .contact-panel, .preview-link, .page-hero"
   );
 
   if ("IntersectionObserver" in window) {
@@ -77,9 +52,5 @@
   }
 
   setScrolled();
-  updateCurrent();
-  window.addEventListener("scroll", () => {
-    setScrolled();
-    updateCurrent();
-  }, { passive: true });
+  window.addEventListener("scroll", setScrolled, { passive: true });
 })();
