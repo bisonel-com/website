@@ -730,13 +730,10 @@ a:hover {
     min-height: auto;
   }
 
-  .hero-visual {
-    order: -1;
-  }
-
   .system-map {
-    width: min(100%, 320px);
+    width: min(100%, 280px);
     margin-inline: auto;
+    margin-top: 0.5rem;
   }
 
   .hero-brand {
